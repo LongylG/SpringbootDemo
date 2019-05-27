@@ -1,0 +1,56 @@
+buildscript {
+
+    ext.springbootVersion = '2.1.2.RELEASE'
+
+    repositories {
+        mavenLocal()
+        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        jcenter()
+        maven { url = "https://plugins.gradle.org/m2/" }
+        maven { url = "http://repo.spring.io/plugins-release" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springbootVersion"
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+
+
+    group 'com.fybdp'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    ext {
+        set('springCloudVersion', 'Greenwich.RC2')
+
+    }
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-starter-parent:${springbootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url = 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/milestone' }
+        mavenCentral()
+
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        compile("org.springframework.boot:spring-boot-starter-web:${springbootVersion}")
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+}
+
+    
